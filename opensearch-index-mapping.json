@@ -1,0 +1,37 @@
+{
+    "properties": {
+      "remote address": {
+        "type": "ip"
+      },
+      "request content length": {
+        "type": "long"
+      },
+      "request duration": {
+        "type": "integer"
+      },
+      "request method": {
+        "type": "keyword"
+      },
+      "request url": {
+        "type": "text"
+      },
+      "response content length": {
+        "type": "long"
+      },
+      "return status": {
+        "type": "integer"
+      },
+      "timestamp": {
+        "type": "date"
+      },
+      "traceid": {
+        "type": "text"
+      },
+      "user agent": {
+        "type": "text"
+      },
+      "username": {
+        "type": "text"
+      }
+    }
+  }

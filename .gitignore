@@ -1,0 +1,5 @@
+venv
+output.txt
+log-bench/
+logs_to_process/*.log
+.DS_Store
