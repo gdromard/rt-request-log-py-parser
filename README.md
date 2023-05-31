@@ -1,10 +1,25 @@
 ## Installation 
 
-pip3 install -r requirements.txt
+Prerequisite : Python 3.10+, pip & virtualenv
 
-the put some request-*.log files in the logs_to_process folder and run 
+in the project folder initialize a virtualenv and activate it 
 
-python3 requestlog-parser.py
+`virtualenv venv`
+
+Activate it
+
+`source ./venv/bin/activate` for Linux / MacOs
+
+Or 
+
+`venv\Scripts\activate` on Windows
+
+Install the dependencies
+`pip3 install -r requirements.txt`
+
+Put some request-*.log files in the `logs_to_process` folder and run 
+
+`python3 requestlog-parser.py`
 
 ## Log format
 
