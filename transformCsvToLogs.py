@@ -1,9 +1,5 @@
-import csv
 import os
 import re
-import collections, functools, operator
-
-from datetime import datetime
 
 ##########################
 ##   Helpers functions  ##
@@ -35,7 +31,7 @@ for root,dirs,files in os.walk(csvs_directory):
        
        if file.endswith(".csv"):
            file_path = os.path.join(csvs_directory, file)
-           # Here we repplcae systematically the content between parenthesis as it contains comma very often 
+           # Here we repplcae systematically the content between parenthesis as it contains comma (aka the separator) very often 
            regex_pattern = r'\(.*?\)'
            print(f"processing {file_path}")
            name_split = os.path.splitext(file_path)
