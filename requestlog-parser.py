@@ -1,5 +1,6 @@
 import csv
 import os
+import re
 import collections, functools, operator
 
 from datetime import datetime
@@ -13,9 +14,9 @@ def convert_bytes_to_gb(size_in_bytes):
 def display_results(transfert_dict):
     for key, value in transfert_dict.items():
         print(key, '->', convert_bytes_to_gb(value))
-def process_current_file(file, inbound_dict_list, outbound_dict_list):
+def process_current_file(file, inbound_dict_list, outbound_dict_list, dialect='piper'):
     with open(file, "r") as csvfile:
-        for row in csv.DictReader(csvfile, dialect='piper', fieldnames=fieldnames):
+        for row in csv.DictReader(csvfile, dialect=dialect, fieldnames=fieldnames):
             log_timestamp = row['timestamp']
             # in bytes
             current_inbound_length = int(row['request_content_length'])
@@ -35,9 +36,8 @@ def process_current_file(file, inbound_dict_list, outbound_dict_list):
 
 logs_directory = "logs_to_process"
 csv.register_dialect('piper', delimiter='|', quoting=csv.QUOTE_NONE)
-'''
+csv.register_dialect('comma', delimiter=',', quoting=csv.QUOTE_NONE)
 
-'''
 fieldnames = ['timestamp' ,'trace_id','remote_address','username ','request_method','request_url','return_status','request_content_length','response_content_length','request_duration','request_user_agent']
 inbound_dict_list = []
 outbound_dict_list = []
@@ -49,7 +49,8 @@ for root,dirs,files in os.walk(logs_directory):
        if file.endswith(".log"):
            file_path = os.path.join(logs_directory, file)
            print(f"processing {file_path}")
-           process_current_file(file_path, inbound_dict_list, outbound_dict_list)
+           # change separator if needed
+           process_current_file(file_path, inbound_dict_list, outbound_dict_list, 'piper')
 
     inbound_aggregation = dict(functools.reduce(operator.add,
             map(collections.Counter, inbound_dict_list)))

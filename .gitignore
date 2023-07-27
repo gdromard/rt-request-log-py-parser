@@ -1,4 +1,5 @@
 venv
+csv_to_transform
 output.txt
 log-bench/
 logs_to_process/*.log
