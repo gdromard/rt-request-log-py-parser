@@ -13,6 +13,7 @@ def convert_bytes_to_gb(size_in_bytes):
 def display_results(transfert_dict):
     for key, value in transfert_dict.items():
         print(key, '->', convert_bytes_to_gb(value))
+
 def process_current_file(file, inbound_dict_list, outbound_dict_list, dialect='piper'):
     with open(file, "r") as csvfile:
         for row in csv.DictReader(csvfile, dialect=dialect, fieldnames=fieldnames):
@@ -21,7 +22,7 @@ def process_current_file(file, inbound_dict_list, outbound_dict_list, dialect='p
             current_inbound_length = int(row['request_content_length'])
             # in bytes
             current_outbound_length = int(row['response_content_length'])
-            dt = datetime.strptime(log_timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
+            dt = datetime.strptime(log_timestamp, "%Y%m%d%H%M%S")
             aggregated_log_key = str(dt.month) + "-" + str(dt.year)
             #now we add the current metric if relevant to the appropriate dict list
             if(current_inbound_length > 0):
@@ -29,7 +30,6 @@ def process_current_file(file, inbound_dict_list, outbound_dict_list, dialect='p
             if(current_outbound_length > 0):
                 outbound_dict_list.append({aggregated_log_key : current_outbound_length})
     return
-
 ##########################
 ##      Main logic      ##
 ##########################
@@ -38,7 +38,7 @@ logs_directory = "logs_to_process"
 csv.register_dialect('piper', delimiter='|', quoting=csv.QUOTE_NONE)
 csv.register_dialect('comma', delimiter=',', quoting=csv.QUOTE_NONE)
 
-fieldnames = ['timestamp' ,'trace_id','remote_address','username ','request_method','request_url','return_status','request_content_length','response_content_length','request_duration','request_user_agent']
+fieldnames = ['timestamp' ,'request_content_length','log_type','remote_address','username ','request_method','request_url','http_version','return_status','response_content_length']
 
 inbound_dict_list = []
 outbound_dict_list = []

@@ -20,8 +20,11 @@ Install the dependencies
 Put some request-*.log files in the `logs_to_process` folder and run 
 
 `python3 requestlog-parser.py`
+and you are working with log files for version 6.x, run 
 
-## Log format
+`python3 requestlog-parser-v6.py`
+
+## Log format (V7)
 
 ```
 Timestamp | Trace ID | Remote Address | Username | Request method | Request URL | Return Status | Request Content Length | Response Content Length | Request Duration | Request User Agent
@@ -44,4 +47,12 @@ Ref : https://jfrog.com/help/r/jfrog-platform-administration-documentation/loggi
 ### (request-out.logs) => 10 fields (no user agent, traceId is empty)
 ```
 2023-05-31T09:54:17.677Z||demo-npm-remote|fakeuser|POST|https://foo.bar/artifactory/api/replications/channels/establishChannel|302|157|138|69
+```
+
+## log format (V6)
+
+example `20230824075012|69|REQUEST|10.02.03.04|anonymous|GET|/libs-release/com/jcraft/jsch/0.1.54/jsch-0.1.54.jar|HTTP/1.1|200|280515`
+
+```
+Timestamp | Request Content Length | Log type | Remote Address | Username | Request method | Request URL | HTTP Version| Return Status | Response Content Length
 ```
