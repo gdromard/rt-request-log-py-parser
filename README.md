@@ -20,7 +20,8 @@ Install the dependencies
 Put some request-*.log files in the `logs_to_process` folder and run 
 
 `python3 requestlog-parser.py`
-and you are working with log files for version 6.x, run 
+
+If you are working with log files for version 6.x, run 
 
 `python3 requestlog-parser-v6.py`
 
