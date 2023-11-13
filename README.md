@@ -55,5 +55,7 @@ Ref : https://jfrog.com/help/r/jfrog-platform-administration-documentation/loggi
 example `20230824075012|69|REQUEST|10.02.03.04|anonymous|GET|/libs-release/com/jcraft/jsch/0.1.54/jsch-0.1.54.jar|HTTP/1.1|200|280515`
 
 ```
-Timestamp | Request Content Length | Log type | Remote Address | Username | Request method | Request URL | HTTP Version| Return Status | Response Content Length
+Timestamp | Request time (in ms) | Request type | Remote IP Address | Username | Request method | Requested resource path | Protocol Version| Response code | Request or Response Content-Length
 ```
+
+Request type will be between {REQUEST / UPLOAD / DOWNLOAD}
