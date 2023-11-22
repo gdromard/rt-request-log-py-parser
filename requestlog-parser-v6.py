@@ -18,17 +18,18 @@ def process_current_file(file, inbound_dict_list, outbound_dict_list, dialect='p
     with open(file, "r") as csvfile:
         for row in csv.DictReader(csvfile, dialect=dialect, fieldnames=fieldnames):
             log_timestamp = row['timestamp']
-            # in bytes
-            current_inbound_length = int(row['request_content_length'])
-            # in bytes
-            current_outbound_length = int(row['response_content_length'])
+            http_method = row['request_method']
+            
+            # in bytes, can be either inbound or outbound in these logs format version
+            current_length = int(row['content_length'])
             dt = datetime.strptime(log_timestamp, "%Y%m%d%H%M%S")
             aggregated_log_key = str(dt.month) + "-" + str(dt.year)
-            #now we add the current metric if relevant to the appropriate dict list
-            if(current_inbound_length > 0):
-                inbound_dict_list.append({aggregated_log_key : current_inbound_length})
-            if(current_outbound_length > 0):
-                outbound_dict_list.append({aggregated_log_key : current_outbound_length})
+            # now we add the current metric if relevant to the appropriate dict list,
+            # and we ignore HEAD requests as we don't charge our customers for them
+            if ((http_method == "GET") and (current_length > 0)):
+                outbound_dict_list.append({aggregated_log_key : current_length})
+            elif (http_method != "HEAD" and (current_length > 0)):
+                inbound_dict_list.append({aggregated_log_key : current_length})
     return
 ##########################
 ##      Main logic      ##
@@ -38,7 +39,7 @@ logs_directory = "logs_to_process"
 csv.register_dialect('piper', delimiter='|', quoting=csv.QUOTE_NONE)
 csv.register_dialect('comma', delimiter=',', quoting=csv.QUOTE_NONE)
 
-fieldnames = ['timestamp' ,'request_content_length','log_type','remote_address','username ','request_method','request_url','http_version','return_status','response_content_length']
+fieldnames = ['timestamp' ,'request_time','log_type','remote_address','username ','request_method','request_url','http_version','return_status','content_length']
 
 inbound_dict_list = []
 outbound_dict_list = []
