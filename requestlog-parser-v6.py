@@ -1,7 +1,7 @@
 import csv
 import os
 import collections, functools, operator
-
+from colorama import Fore
 from datetime import datetime
 
 ##########################
@@ -12,7 +12,7 @@ def convert_bytes_to_gb(size_in_bytes):
     return gb
 def display_results(transfert_dict):
     for key, value in transfert_dict.items():
-        print(key, '->', convert_bytes_to_gb(value))
+        print(Fore.WHITE + "[" + key + "]", convert_bytes_to_gb(value))
 
 def process_current_file(file, inbound_dict_list, outbound_dict_list, dialect='piper'):
     with open(file, "r") as csvfile:
@@ -59,8 +59,8 @@ for root,dirs,files in os.walk(logs_directory):
     outbound_aggregation = dict(functools.reduce(operator.add,
             map(collections.Counter, outbound_dict_list)))
     
-    print("Inboud results")
+    print(Fore.GREEN + "Total Inboud results per month")
     display_results(inbound_aggregation)
-    print("Outboud results")
+    print(Fore.GREEN + "Total Outboud results per month")
     display_results(outbound_aggregation)    
     
