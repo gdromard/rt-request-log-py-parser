@@ -17,6 +17,7 @@ def process_current_file(file, inbound_dict_list, outbound_dict_list, dialect='p
     with open(file, "r") as csvfile:
         for row in csv.DictReader(csvfile, dialect=dialect, fieldnames=fieldnames):
             log_timestamp = row['timestamp']
+            http_method = row['request_method']
             # in bytes
             current_inbound_length = int(row['request_content_length'])
             # in bytes
@@ -24,9 +25,9 @@ def process_current_file(file, inbound_dict_list, outbound_dict_list, dialect='p
             dt = datetime.strptime(log_timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
             aggregated_log_key = str(dt.month) + "-" + str(dt.year)
             #now we add the current metric if relevant to the appropriate dict list
-            if(current_inbound_length > 0):
+            if((http_method != 'HEAD') and (current_inbound_length > 0)):
                 inbound_dict_list.append({aggregated_log_key : current_inbound_length})
-            if(current_outbound_length > 0):
+            if((http_method != 'HEAD') and (current_outbound_length > 0)):
                 outbound_dict_list.append({aggregated_log_key : current_outbound_length})
     return
 
