@@ -24,7 +24,8 @@ def process_current_file(file, inbound_dict_list, outbound_dict_list, dialect='p
             current_outbound_length = int(row['response_content_length'])
             dt = datetime.strptime(log_timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
             aggregated_log_key = str(dt.month) + "-" + str(dt.year)
-            #now we add the current metric if relevant to the appropriate dict list
+            # now we add the current metric if relevant to the appropriate dict list,
+            # and we ignore HEAD requests as we don't charge our customers for them
             if((http_method != 'HEAD') and (current_inbound_length > 0)):
                 inbound_dict_list.append({aggregated_log_key : current_inbound_length})
             if((http_method != 'HEAD') and (current_outbound_length > 0)):
