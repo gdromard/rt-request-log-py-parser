@@ -60,4 +60,5 @@ example
 Timestamp | Request time (in ms) | Request type | Remote IP Address | Username | Request method | Requested resource path | Protocol Version| Response code | Request or Response Content-Length
 ```
 
-Request type will be between {REQUEST / UPLOAD / DOWNLOAD}
+Request should have been between {REQUEST / UPLOAD / DOWNLOAD}, 
+but real V6 logs implementation is always outputting "REQUEST" in the request type field, and you have to use the request methodfield to count the content-length as inbound or outbound.
